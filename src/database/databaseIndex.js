@@ -11,4 +11,8 @@ const connectToDatabase = (databaseUrl) => {
     });
 }
 
-module.exports = { connectToDatabase };
+const initilizeDB = (databaseUrl) => {
+    connectToDatabase(databaseUrl);
+}
+
+module.exports = { initilizeDB };
