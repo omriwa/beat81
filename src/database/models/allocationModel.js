@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const allocationSchema = new Schema({
     user_id: Schema.Types.ObjectId,
-    sensor_id: { Schema.Types.ObjectId, ref: 'Sensor'},
+    sensor_id: { type: Schema.Types.ObjectId, ref: 'Sensor'},
     sensor_is_user_property: Boolean,
     created_at: Date,
     updated_at: Date
@@ -11,4 +11,4 @@ const allocationSchema = new Schema({
 
 const AllocationModel = mongoose.model('Allocation', allocationSchema);
 
-module.exports = { AlloctionModel };
+module.exports = AllocationModel;

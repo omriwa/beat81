@@ -1,7 +1,7 @@
 const express = require('express');
 const server = express();
-const allocationRoute = require('./routes/allocationRoute');
-const sensorsRoute = require('./routes/sensorsRoute');
+const allocationRoute = require('./route/allocationRoute');
+const sensorsRoute = require('./route/sensorsRoute');
 const database = require('./database/databaseIndex');
 const config = require('../config.json');
 
