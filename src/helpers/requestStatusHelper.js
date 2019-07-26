@@ -1,6 +1,6 @@
 const statusHelper = (req, res,error,data) => {
     if (error) {
-        console.log(`error on request uri ${req.originalUrl}-method-${req.method}`, e);
+        console.log(`error on request uri ${req.originalUrl}-method-${req.method}`, error);
         res.status(500);
     }
     else {

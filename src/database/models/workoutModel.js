@@ -4,7 +4,7 @@ const ParticipantModel = require('./paricipantModel');
 
 const workoutSchema = new Schema({
     workout_id: Schema.Types.ObjectId,
-    participants: [{ type: Schema.Types.ObjectId, ref: 'Participant' }]
+    participants: [{ type: Schema.Types.ObjectId, ref: ParticipantModel.Schema }]
 });
 
 const workoutModel = mongoose.model('Workout', workoutSchema);
