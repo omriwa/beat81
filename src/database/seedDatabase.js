@@ -3,16 +3,41 @@ const ParticipantModel = require('./models/paricipantModel');
 const SensorModel = require('./models/sensorModel');
 const WorkoutModel = require('./models/workoutModel');
 
-const isModelInDb = (name,callback) => {
+const isModelEmpty = async (name, callback) => {
     const connection = mongoose.connection;
 
     if (connection.db) {
-        connection.db.listCollections({ name }).next((e, collection) => {
-            if (!collection) {
-                callback();
-            }
+        return await connection.db.listCollections({ name }).next((e, collection) => {
+            return !(collection && e);
         });
     }
+}
+
+const savedCallback = error => {
+    if (error) {
+        console.log('error on save', error);
+    }
+};
+
+const seedParticipants = participants => {
+    // seed participants
+    console.log('seedind Participant');
+        participants.forEach(async participant => { await participant.save(savedCallback) });
+    console.log('seeded Participant');
+};
+
+const seedSensors = sensors => {
+    // seed sensors
+    console.log('seeding Sensor');
+    sensors.forEach(async sensor => { await sensor.save(savedCallback) });
+    console.log('seeded Sensor');
+};
+
+const seedWorkout = async (participants) => {
+    // seed workout
+    console.log('seeding Workout');
+    await WorkoutModel.create({ participants }, savedCallback);
+    console.log('seeded Workout');
 }
 
 const seedDatabase = async () => {
@@ -26,28 +51,17 @@ const seedDatabase = async () => {
         new SensorModel(),
         new SensorModel()
     ];
-    const savedCallback = error => {
-        if (error) {
-            console.log('error on save', error);
-        }
-    };
 
     console.log('seeding DB');
-    // seed participants
-    isModelInDb('participants', () => {
-        console.log('seed Participant');
-        participants.forEach(participant => { participant.save(savedCallback) });
-    });
-    // seed sensors
-    isModelInDb('sensors', () => {
-        console.log('seed Sensor');
-        sensors.forEach(sensor => { sensor.save(savedCallback) });
-    });
-    // seed workout
-    isModelInDb('workouts', () => {
-        console.log('seed Workout');
-        WorkoutModel.create({ participants }, savedCallback);
-    });
+    if (isModelEmpty('participants')) {
+        seedParticipants(participants);
+    }
+    if (isModelEmpty('sensors')) {
+        seedSensors(sensors);
+    }
+    if (isModelEmpty('workouts')) {
+        seedWorkout(participants).then(() => console.log('seeding end'))
+    }
 }
 
 module.exports = seedDatabase;
