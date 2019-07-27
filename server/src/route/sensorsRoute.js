@@ -18,7 +18,6 @@ sensorsRoute.post('/:sensor_id', (req, res, next) => {
         }
         else {
             SensorModel.find((error, sensors) => {
-                console.log(sensors);
                 if (error) {
                     sensorSocket.emit('sensorUpdate', [])
                 }
