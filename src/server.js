@@ -1,25 +1,27 @@
 const express = require('express');
-const server = express();
+const app = express();
+const server = require('http').Server(app);
 const allocationRoute = require('./route/allocationRoute');
 const sensorsRoute = require('./route/sensorsRoute');
 const database = require('./database/databaseIndex');
 const config = require('../config.json');
 const cors = require('cors');
+const sensorSocket = require('./socket/sensorsSocket').initSensorSocket(server);
 
 // CONFIGURATION
-server.use(express.json());
-server.use(cors());
+app.use(express.json());
+app.use(cors());
 
 // ROUTES
-server.get('/', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200);
     res.end();
 });
-server.use('/allocations', allocationRoute);
-server.use('/sensors', sensorsRoute);
+app.use('/allocations', allocationRoute);
+app.use('/sensors', sensorsRoute);
 
 // LISTENING & DATABASE
-server.listen(config.serverPort, e => {
+app.listen(config.serverPort, e => {
     if (e) {
         console.log(`could not listen on ${config.serverPort}`);
     }
@@ -30,3 +32,5 @@ server.listen(config.serverPort, e => {
         database.initilizeDB(databaseUrl);
     }
 });
+
+module.exports = { sensorSocket };

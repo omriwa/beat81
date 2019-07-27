@@ -1,6 +1,6 @@
 # Read me!
 
-## INSTALLATION
+## Installation
 ```bash
 	npm i
 	cd ./server
@@ -9,11 +9,11 @@
 	cd ./client
 	npm i
 ```
-## RUN
+## Run
 ```bash
 	npm start
 ```
-## TEST
+## Test
 ```bash
 	npm test
 ```
