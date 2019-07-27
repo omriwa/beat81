@@ -15,5 +15,7 @@
 ```
 ## Test
 ```bash
+	npm start
+	in new window type:
 	npm test
 ```
