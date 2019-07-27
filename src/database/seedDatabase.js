@@ -7,9 +7,13 @@ const isModelEmpty = async (name, callback) => {
     const connection = mongoose.connection;
 
     if (connection.db) {
-        return await connection.db.listCollections({ name }).next((e, collection) => {
-            return !(collection && e);
+        await connection.db.listCollections({ name }).next((error, collection) => {
+            if (!collection) {
+                callback(error);
+            }
         });
+
+
     }
 }
 
@@ -53,15 +57,9 @@ const seedDatabase = async () => {
     ];
 
     console.log('seeding DB');
-    if (isModelEmpty('participants')) {
-        seedParticipants(participants);
-    }
-    if (isModelEmpty('sensors')) {
-        seedSensors(sensors);
-    }
-    if (isModelEmpty('workouts')) {
-        seedWorkout(participants).then(() => console.log('seeding end'))
-    }
+    isModelEmpty('participants', () => seedParticipants(participants));
+    isModelEmpty('sensors', () => seedSensors(sensors));
+    isModelEmpty('workouts', () => seedWorkout(participants).then(() => console.log('seeding end')));
 }
 
 module.exports = seedDatabase;
