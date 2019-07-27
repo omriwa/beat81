@@ -1,0 +1,24 @@
+{
+  "name": "beat81",
+  "version": "1.0.0",
+  "description": "```bash\r \tnpm i\r \tcd ./server\r \tnpm i\r \tcd ..\r \tcd ./client\r \tnpm i\r ```\r ## Run\r ```bash\r \tnpm start\r ```\r ## Test\r ```bash\r \tnpm test\r ```",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently  --kill-others \"cd ./server && npm start\" \"cd ./client && npm start\"",
+    "test": "cd ./server && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omriwa/beat81.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omriwa/beat81/issues"
+  },
+  "homepage": "https://github.com/omriwa/beat81#readme",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  }
+}
