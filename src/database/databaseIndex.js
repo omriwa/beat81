@@ -1,20 +1,18 @@
 const mongoose = require('mongoose');
-const seedDatabase = require('./seedDatabase');
+const seedDatabase = require('./seedDatabase').seedDatabase;
 
-const connectToDatabase = (databaseUrl) => {
-    return new Promise((res, rej) => {
-        mongoose.connect(databaseUrl, { useNewUrlParser: true }, e => {
-            if (e) {
-                console.log('can not connect to db ', e);
-                rej(false);
-            }
-            else {
-                console.log('connected to db at ', databaseUrl);
-                res(true);
-            }
-        });
+const connectToDatabase = async (databaseUrl) => {
+    return await mongoose.connect(databaseUrl, { useNewUrlParser: true }, e => {
+        if (e) {
+            console.log('can not connect to db ', e);
+            return false;
+        }
+        else {
+            console.log('connected to db at ', databaseUrl);
+            return true;
+        }
     })
-        .then(connectedToDB => connectedToDB);
+    .then(connectedToDB => connectedToDB);
 }
 
 const initilizeDB = async (databaseUrl) => {
@@ -25,4 +23,4 @@ const initilizeDB = async (databaseUrl) => {
     }
 }
 
-module.exports = { initilizeDB };
+module.exports = { initilizeDB, connectToDatabase };

@@ -3,13 +3,18 @@ const ParticipantModel = require('./models/paricipantModel');
 const SensorModel = require('./models/sensorModel');
 const WorkoutModel = require('./models/workoutModel');
 
-const isModelEmpty = async (name, callback) => {
+const isModelEmpty = async (name, callback, isNotEmptyCallback) => {
     const connection = mongoose.connection;
 
     if (connection.db) {
         await connection.db.listCollections({ name }).next((error, collection) => {
             if (!collection) {
                 callback(error);
+            }
+            else {
+                if (isNotEmptyCallback) {
+                    isNotEmptyCallback();
+                }
             }
         });
 
@@ -59,7 +64,8 @@ const seedDatabase = async () => {
     console.log('seeding DB');
     isModelEmpty('participants', () => seedParticipants(participants));
     isModelEmpty('sensors', () => seedSensors(sensors));
-    isModelEmpty('workouts', () => seedWorkout(participants).then(() => console.log('seeding end')));
+    isModelEmpty('workouts', () => seedWorkout(participants).then(() => console.log('seeding end')) , () => console.log('seeding end'));
 }
 
-module.exports = seedDatabase;
+
+module.exports = { seedDatabase, isModelEmpty};

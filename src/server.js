@@ -4,11 +4,17 @@ const allocationRoute = require('./route/allocationRoute');
 const sensorsRoute = require('./route/sensorsRoute');
 const database = require('./database/databaseIndex');
 const config = require('../config.json');
+const cors = require('cors');
 
 // CONFIGURATION
 server.use(express.json());
+server.use(cors());
 
 // ROUTES
+server.get('/', (req, res) => {
+    res.status(200);
+    res.end();
+});
 server.use('/allocations', allocationRoute);
 server.use('/sensors', sensorsRoute);
 

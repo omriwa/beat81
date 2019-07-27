@@ -12,6 +12,8 @@ const statusHelper = (req, res,error,data) => {
     else {
         res.end();
     }
+
+    return res;
 }
 
 module.exports = { statusHelper };
